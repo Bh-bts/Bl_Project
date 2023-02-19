@@ -4,6 +4,8 @@ import java.awt.AWTException;
 import java.io.IOException;
 
 import org.openqa.selenium.support.PageFactory;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.Blink.Browsers.AllBrowsers;
@@ -15,6 +17,7 @@ import com.Blink.testcase.Val_Retailer_Registration_Page;
 import com.Blink.testcase.Val_Retailer_Registration_Page3;
 import com.Blink.testcase.Val_Retailer_Registration_Page4;
 import com.Blink.utils.PropertiesClass;
+import com.Blink.utils.ScreenshotCapture;
 
 /**
  * @author Bhavin.Thumar
@@ -94,6 +97,19 @@ public class Retailer_Registration_MainPage extends Retailer_Registration_Page {
 	public void forthPage() {
 		Retailer_Registration_Page4 Page4 = PageFactory.initElements(driver, Retailer_Registration_Page4.class);
 		Page4.OtherDetailsPage();
+	}
+
+	@AfterMethod(alwaysRun = true)
+
+	public void tearDown(ITestResult result) throws IOException {
+
+		if (ITestResult.FAILURE == result.getStatus()) {
+
+			ScreenshotCapture.captureScreenshot(driver, "Screenshot " + result.getName());
+			System.out.println("Screenshot is generated" + '\n');
+
+		}
+
 	}
 
 }

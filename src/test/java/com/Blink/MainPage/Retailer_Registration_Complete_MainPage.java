@@ -3,11 +3,14 @@ package com.Blink.MainPage;
 import java.io.IOException;
 
 import org.openqa.selenium.support.PageFactory;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.Blink.Browsers.AllBrowsers;
 import com.Blink.testcase.Retailer_Registration_CompletePage;
 import com.Blink.utils.PropertiesClass;
+import com.Blink.utils.ScreenshotCapture;
 
 public class Retailer_Registration_Complete_MainPage extends Retailer_Registration_CompletePage {
 
@@ -51,6 +54,19 @@ public class Retailer_Registration_Complete_MainPage extends Retailer_Registrati
 		Retailer_Registration_CompletePage blank4 = PageFactory.initElements(driver,
 				Retailer_Registration_CompletePage.class);
 		blank4.ForthPage();
+
+	}
+
+	@AfterMethod(alwaysRun = true)
+
+	public void tearDown(ITestResult result) throws IOException {
+
+		if (ITestResult.FAILURE == result.getStatus()) {
+
+			ScreenshotCapture.captureScreenshot(driver, "Screenshot " + result.getName());
+			System.out.println("Screenshot is generated" + '\n');
+
+		}
 
 	}
 

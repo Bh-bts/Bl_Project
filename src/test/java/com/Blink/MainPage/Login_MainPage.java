@@ -3,11 +3,14 @@ package com.Blink.MainPage;
 import java.io.IOException;
 
 import org.openqa.selenium.support.PageFactory;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.Blink.Browsers.AllBrowsers;
 import com.Blink.testcase.Login_Page;
 import com.Blink.utils.PropertiesClass;
+import com.Blink.utils.ScreenshotCapture;
 
 /**
  * @author Bhavin.Thumar
@@ -40,7 +43,7 @@ public class Login_MainPage extends Login_Page {
 	@Test(priority = 3)
 
 	public void loginPage3() throws InterruptedException, IOException {
-		
+
 		Login_Page EnterInvalidID_Pass = PageFactory.initElements(driver, Login_Page.class);
 		EnterInvalidID_Pass.InvalidId_Pass(PropertiesClass.getInvalidId(), PropertiesClass.getInvalidPassword());
 
@@ -52,6 +55,19 @@ public class Login_MainPage extends Login_Page {
 
 		Login_Page EnterValidId_Pass = PageFactory.initElements(driver, Login_Page.class);
 		EnterValidId_Pass.ValidId_Pass(PropertiesClass.getUserId(), PropertiesClass.getPassword());
+
+	}
+
+	@AfterMethod(alwaysRun = true)
+
+	public void tearDown(ITestResult result) throws IOException {
+
+		if (ITestResult.FAILURE == result.getStatus()) {
+
+			ScreenshotCapture.captureScreenshot(driver, "Screenshot " + result.getName());
+			System.out.println("Screenshot is generated" + '\n');
+
+		}
 
 	}
 
